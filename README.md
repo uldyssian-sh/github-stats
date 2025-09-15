@@ -1,5 +1,22 @@
 # [GitHub Stats Visualization](https://github.com/jstrieb/github-stats)
 
+## Table of Contents
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Examples](#examples)
+- [Contributing](#contributing)
+- [License](#license)
+- [Support](#support)
+
+## Prerequisites
+
+Before using this project, ensure you have:
+- Required tools and dependencies
+- Proper access credentials
+- System requirements met
+
+
 <!--
 https://github.community/t/support-theme-context-for-images-in-light-vs-dark-mode/147981/84
 -->
@@ -161,3 +178,21 @@ releasing work publicly on the Web.
 ---
 
 *Enterprise-ready repository with automated workflows and security features.*
+
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details on:
+- How to submit issues
+- How to propose changes
+- Code style guidelines
+- Review process
+
+## Support
+
+- 📖 [Wiki Documentation](../../wiki)
+- 💬 [Discussions](../../discussions)
+- 🐛 [Issue Tracker](../../issues)
+- 🔒 [Security Policy](SECURITY.md)
+
+---
+**Made with ❤️ for the community**
