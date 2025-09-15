@@ -112,12 +112,12 @@ For more information on inaccuracies, see issue
    following lines of code into your markdown content. Change the `username`
    value to your GitHub username.
    ```md
-   ![](https://raw.githubusercontent.com/username/github-stats/master/generated/overview.svg#gh-dark-mode-only)
-   ![](https://raw.githubusercontent.com/username/github-stats/master/generated/overview.svg#gh-light-mode-only)
+   ![Diagram](https://raw.githubusercontent.com/username/github-stats/master/generated/overview.svg#gh-dark-mode-only)
+   ![Diagram](https://raw.githubusercontent.com/username/github-stats/master/generated/overview.svg#gh-light-mode-only)
    ```
    ```md
-   ![](https://raw.githubusercontent.com/username/github-stats/master/generated/languages.svg#gh-dark-mode-only)
-   ![](https://raw.githubusercontent.com/username/github-stats/master/generated/languages.svg#gh-light-mode-only)
+   ![Diagram](https://raw.githubusercontent.com/username/github-stats/master/generated/languages.svg#gh-dark-mode-only)
+   ![Diagram](https://raw.githubusercontent.com/username/github-stats/master/generated/languages.svg#gh-light-mode-only)
    ```
 9. Link back to this repository so that others can generate their own
    statistics images.
