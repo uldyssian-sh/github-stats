@@ -171,11 +171,6 @@ releasing work publicly on the Web.
 - Makes use of [GitHub Octicons](https://primer.style/octicons/) to precisely
   match the GitHub UI
 
-## 👨‍💻 Author
-
-**LT** - [GitHub Profile](https://github.com/uldyssian-sh)
-
----
 
 *Enterprise-ready repository with automated workflows and security features.*
 
