@@ -1,332 +1,145 @@
-# [GitHub Stats Visualization](https://github.com/jstrieb/github-stats)
+# GitHub Stats
 
-## Table of Contents
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Examples](#examples)
-- [Contributing](#contributing)
-- [License](#license)
-- [Support](#support)
+[![GitHub license](https://img.shields.io/github/license/uldyssian-sh/github-stats)](https://github.com/uldyssian-sh/github-stats/blob/main/LICENSE)
+[![CI](https://github.com/uldyssian-sh/github-stats/workflows/CI/badge.svg)](https://github.com/uldyssian-sh/github-stats/actions)
 
-## Prerequisites
+## 🚀 Overview
 
-Before using this project, ensure you have:
-- Required tools and dependencies
-- Proper access credentials
-- System requirements met
+Advanced GitHub repository analytics and statistics generator. Provides comprehensive insights into repository activity, contributor metrics, and project health indicators.
 
+**Technology Stack:** Python, GitHub API, Matplotlib, Pandas, REST API
 
-<!--
-https://github.community/t/support-theme-context-for-images-in-light-vs-dark-mode/147981/84
--->
-<a href="https://github.com/jstrieb/github-stats">
-<img src="https://github.com/jstrieb/github-stats/blob/master/generated/overview.svg#gh-dark-mode-only" />
-<img src="https://github.com/jstrieb/github-stats/blob/master/generated/languages.svg#gh-dark-mode-only" />
-<img src="https://github.com/jstrieb/github-stats/blob/master/generated/overview.svg#gh-light-mode-only" />
-<img src="https://github.com/jstrieb/github-stats/blob/master/generated/languages.svg#gh-light-mode-only" />
-</a>
+## ✨ Features
 
-Generate visualizations of GitHub user and repository statistics with GitHub
-Actions. Visualizations can include data for both private repositories, and for
-repositories you have contributed to, but do not own.
+- 📊 **Repository Analytics** - Comprehensive repo statistics
+- 👥 **Contributor Insights** - Developer activity metrics
+- 📈 **Trend Analysis** - Historical data visualization
+- 🔍 **Code Quality Metrics** - Technical debt analysis
+- 📋 **Custom Reports** - Automated report generation
+- 🎯 **Performance Tracking** - KPI monitoring
 
-Generated images automatically switch between GitHub light theme and GitHub
-dark theme.
+## 🛠️ Prerequisites
 
-## Background
+- Python 3.8+
+- GitHub Personal Access Token
+- Git command line tools
+- Internet connection for API access
 
-When someone views a profile on GitHub, it is often because they are curious
-about a user's open source projects and contributions. Unfortunately, that
-user's stars, forks, and pinned repositories do not necessarily reflect the
-contributions they make to private repositories. The data likewise does not
-present a complete picture of the user's total contributions beyond the current
-year.
+## 🚀 Quick Start
 
-This project aims to collect a variety of profile and repository statistics
-using the GitHub API. It then generates images that can be displayed in
-repository READMEs, or in a user's [Profile
-README](https://docs.github.com/en/github/setting-up-and-managing-your-github-profile/managing-your-profile-readme).
-
-Since the project runs on GitHub Actions, no server is required to regularly
-regenerate the images with updated statistics. Likewise, since the user runs
-the analysis code themselves via GitHub Actions, they can use their GitHub
-access token to collect statistics on private repositories that an external
-service would be unable to access.
-
-## Disclaimer
-
-If the project is used with an access token that has sufficient permissions to
-read private repositories, it may leak details about those repositories in
-error messages. For example, the `aiohttp` library—used for asynchronous API
-requests—may include the requested URL in exceptions, which can leak the name
-of private repositories. If there is an exception caused by `aiohttp`, this
-exception will be viewable in the Actions tab of the repository fork, and
-anyone may be able to see the name of one or more private repositories.
-
-Due to some issues with the GitHub statistics API, there are some situations
-where it returns inaccurate results. Specifically, the repository view count
-statistics and total lines of code modified are probably somewhat inaccurate.
-Unexpectedly, these values will become more accurate over time as GitHub
-caches statistics for your repositories. Additionally, repositories that were
-last contributed to more than a year ago may not be included in the statistics
-due to limitations in the results returned by the API.
-
-For more information on inaccuracies, see issue
-[#2](https://github.com/jstrieb/github-stats/issues/2),
-[#3](https://github.com/jstrieb/github-stats/issues/3), and
-[#13](https://github.com/jstrieb/github-stats/issues/13).
-
-# Installation
-
-<!-- TODO: Add details and screenshots -->
-
-1. Create a personal access token (not the default GitHub Actions token) using
-   the instructions
-   [here](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token).
-   Personal access token must have permissions: `read:user` and `repo`. Copy
-   the access token when it is generated – if you lose it, you will have to
-   regenerate the token.
-   - Some users are reporting that it can take a few minutes for the personal
-     access token to work. For more, see
-     [#30](https://github.com/jstrieb/github-stats/issues/30).
-2. Create a copy of this repository by clicking
-   [here](https://github.com/jstrieb/github-stats/generate). Note: this is
-   **not** the same as forking a copy because it copies everything fresh,
-   without the huge commit history.
-3. Go to the "Secrets" page of your copy of the repository. If this is the
-   README of your copy, click [this link](../../settings/secrets/actions) to go
-   to the "Secrets" page. Otherwise, go to the "Settings" tab of the
-   newly-created repository and go to the "Secrets" page (bottom left).
-4. Create a new secret with the name `ACCESS_TOKEN` and paste the copied
-   personal access token as the value.
-5. It is possible to change the type of statistics reported by adding other
-   repository secrets.
-   - To ignore certain repos, add them (in owner/name format e.g.,
-     `jstrieb/github-stats`) separated by commas to a new secret—created as
-     before—called `EXCLUDED`.
-   - To ignore certain languages, add them (separated by commas) to a new
-     secret called `EXCLUDED_LANGS`. For example, to exclude HTML and TeX you
-     could set the value to `html,tex`.
-   - To show statistics only for "owned" repositories and not forks with
-     contributions, add an environment variable (under the `env` header in the
-     [main
-     workflow](https://github.com/jstrieb/github-stats/blob/master/.github/workflows/main.yml))
-     called `EXCLUDE_FORKED_REPOS` with a value of `true`.
-   - These other values are added as secrets by default to prevent leaking
-     information about private repositories. If you're not worried about that,
-     you can change the values directly [in the Actions workflow
-     itself](https://github.com/jstrieb/github-stats/blob/05de1314b870febd44d19ad2f55d5e59d83f5857/.github/workflows/main.yml#L48-L53).
-6. Go to the [Actions
-   Page](../../actions?query=workflow%3A"Generate+Stats+Images") and press "Run
-   Workflow" on the right side of the screen to generate images for the first
-   time.
-   - The images will be automatically regenerated every 24 hours, but they can
-     be regenerated manually by running the workflow this way.
-7. Take a look at the images that have been created in the
-   [`generated`](generated) folder.
-8. To add your statistics to your GitHub Profile README, copy and paste the
-   following lines of code into your markdown content. Change the `username`
-   value to your GitHub username.
-   ```md
-   ![Diagram](https://raw.githubusercontent.com/username/github-stats/master/generated/overview.svg#gh-dark-mode-only)
-   ![Diagram](https://raw.githubusercontent.com/username/github-stats/master/generated/overview.svg#gh-light-mode-only)
-   ```
-   ```md
-   ![Diagram](https://raw.githubusercontent.com/username/github-stats/master/generated/languages.svg#gh-dark-mode-only)
-   ![Diagram](https://raw.githubusercontent.com/username/github-stats/master/generated/languages.svg#gh-light-mode-only)
-   ```
-9. Link back to this repository so that others can generate their own
-   statistics images.
-10. Star this repo if you like it!
-
-
-# Support the Project
-
-There are a few things you can do to support the project:
-
-- Star the repository (and follow me on GitHub for more)
-- Share and upvote on sites like Twitter, Reddit, and Hacker News
-- Report any bugs, glitches, or errors that you find
-
-These things motivate me to keep sharing what I build, and they provide
-validation that my work is appreciated! They also help me improve the
-project. Thanks in advance!
-
-If you are insistent on spending money to show your support, I encourage you to
-instead make a generous donation to one of the following organizations. By advocating
-for Internet freedoms, organizations like these help me to feel comfortable
-releasing work publicly on the Web.
-
-- [Electronic Frontier Foundation](https://supporters.eff.org/donate/)
-- [Signal Foundation](https://signal.org/donate/)
-- [Mozilla](https://donate.mozilla.org/en-US/)
-- [The Internet Archive](https://archive.org/donate/index.php)
-
-
-# Related Projects
-
-- Inspired by a desire to improve upon
-  [anuraghazra/github-readme-stats](https://github.com/anuraghazra/github-readme-stats)
-- Makes use of [GitHub Octicons](https://primer.style/octicons/) to precisely
-  match the GitHub UI
-
-
-*Enterprise-ready repository with automated workflows and security features.*
-
-## Contributing
-
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details on:
-- How to submit issues
-- How to propose changes
-- Code style guidelines
-- Review process
-
-## 🤖 AI Development Support
-
-This repository is optimized for AI-assisted development:
-- **Amazon Q Developer**: Enhanced AWS and cloud development assistance
-- **GitHub Copilot**: Code completion and suggestions
-- **AI-friendly documentation**: Clear structure for better AI understanding
-
-See [AMAZON_Q_INTEGRATION.md](AMAZON_Q_INTEGRATION.md) for detailed setup and usage.
-
-## Support
-
-- 📖 [Wiki Documentation](../../wiki)
-- 💬 [Discussions](../../discussions)
-- 🐛 [Issue Tracker](../../issues)
-- 🔒 [Security Policy](SECURITY.md)
-
----
-**Made with ❤️ for the community**
-
-
-## 🚀 Enhanced Features
-
-### Core Statistics
-- Enhanced statistics collection with advanced metrics
-- Real-time data processing and updates
-- Multi-language support with improved detection
-- Dark mode with automatic theme switching
-
-### Advanced Functionality
-- Export functionality (PDF, CSV, JSON)
-- Custom themes and color schemes
-- Analytics dashboard with interactive charts
-- Mobile optimization and responsive design
-
-### Enterprise Features
-- Security enhancements with OAuth2
-- Performance monitoring and optimization
-- Automated testing framework
-- CI/CD pipeline implementation
-- Monitoring and alerts system
-
-### Data & Visualization
-- Advanced data visualization options
-- User preferences and profile management
-- Backup and recovery systems
-- Compliance reporting capabilities
-
-### Technical Infrastructure
-- API integration improvements
-- Caching system implementation
-- Real-time WebSocket connections
-- Progressive web app features
-
-## 📊 Repository Statistics
-
-- **Total Features**: 20+ advanced modules
-- **Documentation**: Comprehensive guides
-- **Testing**: Automated test coverage
-- **Security**: Enterprise-grade protection
-- **Performance**: Optimized for scale
-- **Compliance**: Audit-ready reporting
-
-## 🔧 Dependencies
-
-All dependencies are automatically managed by Dependabot for security updates.
-
-
-## 🎯 Complete Feature Suite
-
-### Analytics & Insights
-- Advanced metrics collection with deep analysis
-- Repository insights dashboard with health scoring
-- Language analytics engine with trend analysis
-- Contribution heatmap visualization
-- Team collaboration analytics
-- Code quality metrics system
-- Project timeline visualization
-- Issue analytics dashboard
-- Pull request insights system
-- Developer productivity analytics
-
-### Enterprise Capabilities
-- Repository comparison tools
-- Automated reporting system
-- Data export API implementation
-- Real-time notification system
-- Integration webhooks framework
-- Performance benchmarking suite
-- Security scanning integration
-- Machine learning analytics
-- Custom dashboard builder
-- API rate limiting system
-
-### Infrastructure & Operations
-- Data archiving solution
-- Multi-tenant architecture
-- Audit logging system
-- Disaster recovery planning
-- Load balancing implementation
-- Microservices architecture design
-- Container orchestration setup
-- Observability platform integration
-- Cost optimization strategies
-- Enterprise feature suite
-
-## 📈 Repository Metrics
-
-- **Total Features**: 50+ enterprise modules
-- **Pull Requests**: 63+ merged successfully
-- **Documentation**: Comprehensive coverage
-- **Security**: Enterprise-grade protection
-- **Performance**: Optimized for scale
-- **Compliance**: Audit-ready systems
-- **Architecture**: Microservices ready
-- **Monitoring**: Full observability
-
-## 🔒 Security & Compliance
-
-All features include enterprise-grade security, compliance reporting, and audit capabilities suitable for production environments.
-
-
-## 🎯 Advanced Analytics
-
-### Real-time Monitoring
-- Live Data Streaming: WebSocket updates
-- Performance Metrics: Response time tracking
-- Alert System: Intelligent notifications
-- Dashboard Customization: Personalized views
-
-### Enterprise Reporting
-- Executive Dashboards: High-level KPIs
-- Detailed Analytics: Granular insights
-- Export Capabilities: PDF, CSV, JSON
-- Scheduled Reports: Automated delivery
-
-## 📊 Supported Metrics
-- Repository: Stars, Forks, Issues, PRs
-- Contributors: Commits, Additions, Deletions
-- Languages: Usage, Trends, Distribution
-- Activity: Timeline, Frequency, Patterns
-
-## 🚀 Quick Setup
 ```bash
+# Clone repository
 git clone https://github.com/uldyssian-sh/github-stats.git
 cd github-stats
-npm install
-npm run generate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Configure GitHub token
+export GITHUB_TOKEN="your_github_token"
+
+# Generate repository stats
+python github_stats.py --repo uldyssian-sh/github-stats
+
+# Generate organization stats
+python github_stats.py --org uldyssian-sh --output reports/
 ```
+
+## 📋 Available Metrics
+
+### Repository Metrics
+- Commit frequency and patterns
+- Pull request statistics
+- Issue tracking metrics
+- Code churn analysis
+- Branch and tag statistics
+
+### Contributor Metrics
+- Developer activity levels
+- Contribution patterns
+- Code review participation
+- Collaboration networks
+- Expertise mapping
+
+### Quality Metrics
+- Code complexity trends
+- Test coverage evolution
+- Documentation coverage
+- Security vulnerability tracking
+- Performance indicators
+
+## 🔧 Configuration
+
+```python
+# config.py
+GITHUB_CONFIG = {
+    'token': 'your_github_token',
+    'api_url': 'https://api.github.com',
+    'rate_limit': 5000,
+    'timeout': 30
+}
+
+REPORT_CONFIG = {
+    'output_format': ['json', 'csv', 'html'],
+    'chart_types': ['line', 'bar', 'pie'],
+    'date_range': '1y',
+    'include_forks': False
+}
+```
+
+## 📊 Report Generation
+
+### Basic Reports
+```bash
+# Repository overview
+python generate_report.py --type overview --repo owner/repo
+
+# Contributor analysis
+python generate_report.py --type contributors --repo owner/repo
+
+# Activity timeline
+python generate_report.py --type timeline --repo owner/repo
+```
+
+### Advanced Analytics
+```bash
+# Multi-repository comparison
+python compare_repos.py --repos repo1,repo2,repo3
+
+# Organization dashboard
+python org_dashboard.py --org organization_name
+
+# Custom metrics
+python custom_metrics.py --config custom_config.json
+```
+
+## 📈 Visualization
+
+- Interactive charts and graphs
+- Customizable dashboards
+- Export to multiple formats
+- Real-time data updates
+- Mobile-responsive design
+
+## 🔒 Security & Privacy
+
+- Secure token management
+- Rate limit compliance
+- Data anonymization options
+- GDPR compliance features
+- Audit logging
+
+## 📚 Documentation
+
+- [API Reference](docs/api.md)
+- [Configuration Guide](docs/configuration.md)
+- [Report Templates](docs/templates.md)
+- [Troubleshooting](docs/troubleshooting.md)
+
+## 🤝 Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) file for details.
