@@ -135,6 +135,30 @@ dmypy.json
 # PyCharm project files
 .idea
 
+# Security and sensitive files
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+.env
+.env.local
+.env.production
+.env.staging
+secrets/
+credentials/
+config/secrets.yml
+config/credentials.yml
+
+# Security scan reports
+bandit-report.json
+safety-report.json
+semgrep-report.json
+trivy-results.sarif
+security-reports/
+
 # Performance optimization
 *.log
 *.tmp
@@ -147,11 +171,41 @@ node_modules/
 .vscode/settings.json
 .idea/
 
-# Security
-*.pem
-*.key
-*.p12
-*.pfx
-.env
-.env.local
-secrets/
+# Development tools
+.pre-commit-config.yaml
+.flake8
+.pylintrc
+mypy.ini
+pyproject.toml
+setup.cfg
+
+# Backup files
+*.bak
+*.backup
+*.orig
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Archive files
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Temporary directories
+tmp/
+temp/
+.tmp/
+.temp/

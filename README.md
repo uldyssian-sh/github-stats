@@ -1,4 +1,13 @@
-# GitHub Statistics Dashboard
+# GitHub Stats Generator
+
+[![Enterprise CI/CD Pipeline](https://github.com/uldyssian-sh/github-stats/actions/workflows/ci.yml/badge.svg)](https://github.com/uldyssian-sh/github-stats/actions/workflows/ci.yml)
+[![Security Audit](https://github.com/uldyssian-sh/github-stats/actions/workflows/security.yml/badge.svg)](https://github.com/uldyssian-sh/github-stats/actions/workflows/security.yml)
+[![GitHub Stats Generator](https://github.com/uldyssian-sh/github-stats/actions/workflows/stats-generator.yml/badge.svg)](https://github.com/uldyssian-sh/github-stats/actions/workflows/stats-generator.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Security: bandit](https://img.shields.io/badge/security-bandit-yellow.svg)](https://github.com/PyCQA/bandit)
+[![codecov](https://codecov.io/gh/uldyssian-sh/github-stats/branch/main/graph/badge.svg)](https://codecov.io/gh/uldyssian-sh/github-stats)
 
 <div align="center">
 
@@ -18,223 +27,190 @@
 └─────────────────────────────────────────────────────────────┘
 ```
 
-[![Python](https://img.shields.io/badge/Python-3.9+-3776AB.svg)](https://www.python.org/)
-[![GitHub API](https://img.shields.io/badge/GitHub-API-181717.svg)](https://docs.github.com/en/rest)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688.svg)](https://fastapi.tiangolo.com/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
 </div>
 
-## 📊 Enterprise GitHub Analytics Platform
+## 🚀 Overview
 
-Comprehensive GitHub statistics dashboard providing deep insights into repository metrics, contributor activity, development trends, and organizational performance across your entire GitHub ecosystem.
+Enterprise-grade GitHub repository analytics and statistics generator with automated CI/CD pipeline. Provides comprehensive insights into repository activity, contributor metrics, and project health indicators with enterprise security standards.
 
-## ✨ Advanced Features
+**Technology Stack:** Python 3.9+, GitHub GraphQL API v4, GitHub REST API v3, aiohttp, asyncio
 
-### Repository Analytics
-- **Commit Analysis** - Detailed commit patterns and frequency
-- **Pull Request Metrics** - PR lifecycle and review analytics
-- **Issue Tracking** - Issue resolution patterns and trends
-- **Code Quality Metrics** - Technical debt and maintainability scores
-- **Security Insights** - Vulnerability and dependency analysis
+## ✨ Key Features
 
-### Contributor Intelligence
-- **Activity Heatmaps** - Visual contribution patterns
-- **Performance Metrics** - Individual and team productivity
-- **Collaboration Analysis** - Cross-team interaction patterns
-- **Skill Assessment** - Technology stack analysis
-- **Onboarding Tracking** - New contributor integration
+- 📊 **Real-time Analytics** - Live GitHub repository statistics
+- 🔄 **Automated Generation** - Daily automated stats updates via GitHub Actions
+- 🛡️ **Enterprise Security** - Multi-layer security scanning and compliance
+- 🎯 **Performance Optimized** - Async operations with rate limiting
+- 📈 **Visual Reports** - SVG-based statistics visualization
+- 🔍 **Code Quality** - Comprehensive quality metrics and analysis
+- 🤖 **AI-Powered Workflows** - Intelligent automation and monitoring
+- 🌐 **Free Tier Optimized** - Designed for GitHub Free tier limits
 
-### Organizational Insights
-- **Portfolio Overview** - Multi-repository dashboard
-- **Technology Trends** - Language and framework adoption
-- **Resource Allocation** - Development effort distribution
-- **Growth Metrics** - Organizational development velocity
-- **Compliance Tracking** - Policy adherence monitoring
+## 📊 Generated Statistics
+
+### Overview Statistics
+![GitHub Stats Overview](./generated/overview.svg)
+
+### Language Distribution
+![GitHub Languages](./generated/languages.svg)
+
+## 🛠️ Prerequisites
+
+- **Python**: 3.9 or higher
+- **GitHub Token**: Personal Access Token with repo permissions
+- **Git**: Command line tools
+- **Internet**: Connection for GitHub API access
 
 ## 🚀 Quick Start
 
-### Prerequisites
-```bash
-# System requirements
-Python 3.9+
-Node.js 16+
-PostgreSQL 13+
-Redis 6+
-```
+### Local Development
 
-### Installation
 ```bash
 # Clone repository
 git clone https://github.com/uldyssian-sh/github-stats.git
 cd github-stats
 
-# Install Python dependencies
+# Install dependencies
 pip install -r requirements.txt
 
-# Install Node.js dependencies
-npm install
+# Set environment variables
+export ACCESS_TOKEN="your_github_token"
+export GITHUB_ACTOR="your_username"
 
-# Configure environment
-cp .env.example .env
-# Edit .env with your GitHub token and database settings
-
-# Initialize database
-python manage.py migrate
-
-# Start services
-docker-compose up -d
+# Generate statistics
+python generate_images.py
 ```
 
-### Basic Usage
+### GitHub Actions Integration
+
+The repository automatically generates statistics daily via GitHub Actions. No manual intervention required.
+
+## 📋 Available Metrics
+
+### Repository Metrics
+- ⭐ **Stargazers**: Total stars across all repositories
+- 🍴 **Forks**: Total forks of user repositories
+- 📝 **Contributions**: All-time contribution count
+- 📊 **Repositories**: Number of repositories with contributions
+- 📈 **Lines Changed**: Total lines added and deleted
+- 👀 **Views**: Repository page views (last 14 days)
+
+### Language Analysis
+- 🔤 **Language Distribution**: Proportional usage by bytes
+- 🎨 **Color Coding**: GitHub's official language colors
+- 📊 **Percentage Breakdown**: Detailed language statistics
+- 🔄 **Dynamic Updates**: Real-time language trend analysis
+
+## 🔧 Configuration
+
+### Environment Variables
+
+| Variable | Description | Required | Default |
+|----------|-------------|----------|----------|
+| `ACCESS_TOKEN` | GitHub Personal Access Token | ✅ | - |
+| `GITHUB_ACTOR` | GitHub username | ✅ | - |
+| `EXCLUDED` | Comma-separated list of repos to exclude | ❌ | `repo-private` |
+| `EXCLUDED_LANGS` | Comma-separated list of languages to exclude | ❌ | `html,css` |
+| `EXCLUDE_FORKED_REPOS` | Exclude forked repositories | ❌ | `true` |
+
+### Advanced Configuration
+
 ```python
-from github_stats import GitHubAnalyzer
-
-# Initialize analyzer
-analyzer = GitHubAnalyzer(token="your_github_token")
-
-# Analyze organization
-org_stats = analyzer.analyze_organization("uldyssian-sh")
-
-# Generate comprehensive report
-report = analyzer.generate_report(
-    organization="uldyssian-sh",
-    time_range="30d",
-    format="html"
-)
-
-# Export metrics
-analyzer.export_metrics(format="json", output="metrics.json")
+# Custom exclusions
+EXCLUDED_REPOS = {'repo-private', 'test-repo'}
+EXCLUDED_LANGS = {'html', 'css', 'dockerfile'}
+EXCLUDE_FORKED_REPOS = True
 ```
 
-## 📈 Analytics Capabilities
+## 🔒 Security & Compliance
 
-### Real-time Dashboards
-```yaml
-# Dashboard configuration
-dashboards:
-  executive:
-    - repository_health
-    - team_productivity
-    - security_overview
-    - cost_analysis
-  
-  technical:
-    - code_quality_trends
-    - deployment_frequency
-    - bug_resolution_time
-    - technical_debt
-  
-  management:
-    - resource_utilization
-    - project_timelines
-    - team_performance
-    - skill_gaps
+### Security Features
+- 🛡️ **Multi-layer Security Scanning**: CodeQL, Trivy, Bandit, Safety
+- 🔍 **Secrets Detection**: TruffleHog integration
+- 📋 **Dependency Review**: Automated vulnerability assessment
+- 🔐 **Token Security**: Secure token management practices
+- 📊 **SARIF Integration**: Security findings in GitHub Security tab
+
+### Compliance Standards
+- ✅ **GitHub Free Tier**: Optimized for free tier limits
+- 🔒 **Data Privacy**: No sensitive data exposure
+- 📝 **Audit Logging**: Comprehensive activity logging
+- 🏢 **Enterprise Standards**: Professional DevOps practices
+
+## 🤖 Automation & CI/CD
+
+### Workflows
+- **Enterprise CI/CD Pipeline**: Comprehensive testing and quality checks
+- **Security Audit**: Weekly security scanning and vulnerability assessment
+- **Stats Generator**: Daily automated statistics generation
+- **Dependency Updates**: Automated dependency management via Dependabot
+
+### Quality Gates
+- Code formatting with Black
+- Linting with Flake8 and Pylint
+- Type checking with MyPy
+- Security scanning with Bandit
+- Test coverage reporting
+
+## 📈 Performance & Optimization
+
+- **Async Operations**: Non-blocking API calls with aiohttp
+- **Rate Limiting**: Intelligent GitHub API rate limit handling
+- **Caching**: Efficient data caching and retrieval
+- **Error Handling**: Robust error recovery mechanisms
+- **Resource Optimization**: Memory and CPU efficient processing
+
+## 🔧 Development
+
+### Code Quality Standards
+```bash
+# Format code
+black .
+
+# Lint code
+flake8 .
+pylint **/*.py
+
+# Type checking
+mypy .
+
+# Security scan
+bandit -r .
+
+# Dependency check
+safety check
 ```
 
-### Custom Metrics
-- **DORA Metrics** - DevOps Research and Assessment indicators
-- **SPACE Framework** - Developer productivity measurement
-- **Code Churn** - Code stability and refactoring patterns
-- **Bus Factor** - Knowledge distribution analysis
-- **Innovation Index** - Experimental project tracking
-
-## 🔧 Advanced Configuration
-
-### Multi-Organization Setup
-```yaml
-# config/organizations.yml
-organizations:
-  primary:
-    name: "uldyssian-sh"
-    token: "${GITHUB_TOKEN_PRIMARY}"
-    repositories: "all"
-    
-  secondary:
-    name: "partner-org"
-    token: "${GITHUB_TOKEN_SECONDARY}"
-    repositories: ["repo1", "repo2"]
+### Testing
+```bash
+# Run tests with coverage
+coverage run -m pytest -v
+coverage report --show-missing
 ```
-
-### Custom Analytics Rules
-```python
-# Custom metric definitions
-CUSTOM_METRICS = {
-    "code_review_efficiency": {
-        "formula": "approved_prs / total_review_time",
-        "threshold": 0.8,
-        "trend": "higher_better"
-    },
-    "security_response_time": {
-        "formula": "avg(security_issue_resolution_time)",
-        "threshold": 24,  # hours
-        "trend": "lower_better"
-    }
-}
-```
-
-## 📊 Reporting & Visualization
-
-### Executive Reports
-- **Monthly Business Review** - High-level organizational metrics
-- **Quarterly Technology Review** - Technology stack evolution
-- **Annual Performance Summary** - Year-over-year comparisons
-- **ROI Analysis** - Development investment returns
-
-### Technical Reports
-- **Code Quality Assessment** - Technical debt and maintainability
-- **Security Posture Report** - Vulnerability and compliance status
-- **Performance Benchmarks** - Development velocity metrics
-- **Capacity Planning** - Resource allocation recommendations
-
-## 📚 Documentation
-
-### Getting Started
-- **[Installation Guide](https://github.com/uldyssian-sh/github-stats/wiki/Installation)** - Complete setup instructions
-- **[Quick Start Tutorial](https://github.com/uldyssian-sh/github-stats/wiki/Quick-Start)** - First steps guide
-- **[Configuration Reference](https://github.com/uldyssian-sh/github-stats/wiki/Configuration)** - All configuration options
-
-### API Documentation
-- **[REST API Reference](https://github.com/uldyssian-sh/github-stats/wiki/API)** - Complete API documentation
-- **[GraphQL Schema](https://github.com/uldyssian-sh/github-stats/wiki/GraphQL)** - GraphQL query examples
-- **[Webhook Integration](https://github.com/uldyssian-sh/github-stats/wiki/Webhooks)** - Real-time data updates
-
-### Analytics Guide
-- **[Metrics Dictionary](https://github.com/uldyssian-sh/github-stats/wiki/Metrics)** - All available metrics
-- **[Dashboard Creation](https://github.com/uldyssian-sh/github-stats/wiki/Dashboards)** - Custom dashboard guide
-- **[Report Templates](https://github.com/uldyssian-sh/github-stats/wiki/Reports)** - Pre-built report templates
-
-## 🔗 Integration
-
-### Business Intelligence
-- **[Tableau](https://github.com/uldyssian-sh/github-stats/wiki/Tableau-Integration)** - Advanced data visualization
-- **[Power BI](https://github.com/uldyssian-sh/github-stats/wiki/PowerBI-Integration)** - Microsoft BI integration
-- **[Looker](https://github.com/uldyssian-sh/github-stats/wiki/Looker-Integration)** - Google Cloud BI
-
-### Development Tools
-- **[Jira](https://github.com/uldyssian-sh/github-stats/wiki/Jira-Integration)** - Project management correlation
-- **[Slack](https://github.com/uldyssian-sh/github-stats/wiki/Slack-Integration)** - Team notifications
-- **[Microsoft Teams](https://github.com/uldyssian-sh/github-stats/wiki/Teams-Integration)** - Collaboration platform
-
-### Monitoring & Alerting
-- **[Grafana](https://github.com/uldyssian-sh/github-stats/wiki/Grafana-Integration)** - Metrics visualization
-- **[Prometheus](https://github.com/uldyssian-sh/github-stats/wiki/Prometheus-Integration)** - Metrics collection
-- **[PagerDuty](https://github.com/uldyssian-sh/github-stats/wiki/PagerDuty-Integration)** - Incident management
 
 ## 🤝 Contributing
 
-1. **[Fork Repository](https://github.com/uldyssian-sh/github-stats/fork)** - Create your contribution fork
-2. **[Development Setup](https://github.com/uldyssian-sh/github-stats/wiki/Development)** - Local development environment
-3. **[Testing Guidelines](https://github.com/uldyssian-sh/github-stats/wiki/Testing)** - Testing procedures
-4. **[Submit Pull Request](https://github.com/uldyssian-sh/github-stats/pulls)** - Contribute improvements
+Contributions are welcome! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+
+### Contributors
+- **dependabot[bot]** - Automated dependency updates
+- **actions-user** - GitHub Actions automation
+- **uldyssian-sh LT** - Primary maintainer
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the **[LICENSE](https://github.com/uldyssian-sh/github-stats/blob/main/LICENSE)** file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🆘 Support
+## 🔗 Links
 
-- **[GitHub Issues](https://github.com/uldyssian-sh/github-stats/issues)** - Bug reports and feature requests
-- **[Discussions](https://github.com/uldyssian-sh/github-stats/discussions)** - Community support and Q&A
-- **[Wiki](https://github.com/uldyssian-sh/github-stats/wiki)** - Comprehensive documentation
-- **[GitHub API Documentation](https://docs.github.com/en/rest)** - Official GitHub API docs
+- [GitHub Repository](https://github.com/uldyssian-sh/github-stats)
+- [Issues](https://github.com/uldyssian-sh/github-stats/issues)
+- [Pull Requests](https://github.com/uldyssian-sh/github-stats/pulls)
+- [Actions](https://github.com/uldyssian-sh/github-stats/actions)
+- [Security](https://github.com/uldyssian-sh/github-stats/security)
+
+---
+
+<div align="center">
+  <strong>🚀 Powered by GitHub Actions | 🛡️ Enterprise Security | 🤖 AI-Driven Automation</strong>
+</div>
