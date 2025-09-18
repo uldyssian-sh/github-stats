@@ -27,7 +27,8 @@ jobs:
       - name: Generate stats
         run: python generate_images.py
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: uldyssian-sh
       
       - name: Commit and push
         run: |
