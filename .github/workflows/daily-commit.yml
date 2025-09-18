@@ -1,15 +1,15 @@
-name: Daily Commit
+name: Weekly Commit
 
 on:
   schedule:
-    - cron: "0 12 * * *"  # Daily at 12:00 UTC
+    - cron: "0 12 * * 1"  # Weekly on Monday at 12:00 UTC
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  daily-commit:
+  weekly-commit:
     runs-on: ubuntu-latest
     
     steps:
@@ -17,16 +17,16 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           
-      - name: Create daily contribution
+      - name: Create weekly contribution
         run: |
-          echo "Daily contribution: $(date +%Y-%m-%d\ %H:%M:%S)" >> daily-activity.log
-          echo "GitHub stats repository activity maintained" >> daily-activity.log
-          echo "---" >> daily-activity.log
+          echo "Weekly contribution: $(date +%Y-%m-%d\ %H:%M:%S)" >> weekly-activity.log
+          echo "GitHub stats repository weekly activity maintained" >> weekly-activity.log
+          echo "---" >> weekly-activity.log
           
       - name: Commit and push changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add daily-activity.log
-          git diff --staged --quiet || git commit -m "Daily activity: $(date +%Y-%m-%d)"
+          git add weekly-activity.log
+          git diff --staged --quiet || git commit -m "Weekly activity: $(date +%Y-%m-%d)"
           git push
