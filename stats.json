@@ -1,0 +1,16 @@
+{
+  "profile": "uldyssian-sh",
+  "updated": "2025-09-21 16:10:55",
+  "repositories": {
+    "total": 28,
+    "public": 26,
+    "private": 2
+  },
+  "security": {
+    "security_policies": "28/28 (100%)",
+    "dependabot": "28/28 (100%)",
+    "codeql": "28/28 (100%)",
+    "vulnerability_reporting": "28/28 (100%)",
+    "discussions": "28/28 (100%)"
+  }
+}
