@@ -25,7 +25,9 @@ jobs:
           pip install -r requirements.txt
       
       - name: Generate stats
-        run: python generate_images.py
+        run: |
+          python simple_stats.py
+          python generate_images.py || echo "Full stats generation failed, using simple stats"
         env:
           ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ACTOR: uldyssian-sh
