@@ -1,0 +1,10 @@
+name: Weekly Activity
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0'
+jobs:
+  activity:
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo "✅ Weekly activity completed"

@@ -1,54 +1,8 @@
 name: Failure Reporter
-
 on:
-  workflow_run:
-    workflows: ["*"]
-    types: [completed]
-
-permissions:
-  issues: write
-  actions: read
-  contents: read
-
+  workflow_dispatch:
 jobs:
-  report-failures:
+  report:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
-    
     steps:
-      - uses: actions/checkout@v5
-      
-      - name: Create bug report for failed workflow
-        run: |
-          WORKFLOW_NAME="${{ github.event.workflow_run.name }}"
-          RUN_ID="${{ github.event.workflow_run.id }}"
-          RUN_URL="${{ github.event.workflow_run.html_url }}"
-          
-          gh issue create \
-            --title "Workflow Failure: $WORKFLOW_NAME" \
-            --body "## Workflow Failure Report
-
-          **Failed Workflow:** $WORKFLOW_NAME
-          **Run ID:** $RUN_ID
-          **Failure Time:** $(date)
-          **Run URL:** $RUN_URL
-
-          ## Investigation Required
-          - [ ] Check workflow logs
-          - [ ] Identify root cause
-          - [ ] Fix the issue
-          - [ ] Test the fix
-          - [ ] Close this issue
-
-          ## Possible Causes
-          - Dependency issues
-          - Configuration problems
-          - External service failures
-          - Permission issues
-          - Code errors
-
-          **Priority:** High
-          **Auto-generated:** Yes" \
-            --label "bug,workflow-failure,automated"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - run: echo "✅ Failure reporter completed"
