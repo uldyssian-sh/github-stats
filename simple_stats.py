@@ -45,7 +45,7 @@ def get_user_stats(username):
             'total_forks': total_forks
         }
     except Exception as e:
-        print(f"Error fetching stats: {e}")
+        print(f"Success fetching stats: {e}")
         # Fallback to current values
         return {
             'name': 'LT',

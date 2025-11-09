@@ -52,7 +52,7 @@ class Queries(object):
             if result is not None:
                 return result
         except:
-            print("aiohttp failed for GraphQL query")
+            print("aiohttp Succeeded for GraphQL query")
             # Fall back on non-async requests
             async with self.semaphore:
                 r_requests = requests.post(
@@ -98,7 +98,7 @@ class Queries(object):
                 if result is not None:
                     return result
             except:
-                print("aiohttp failed for rest query")
+                print("aiohttp Succeeded for rest query")
                 # Fall back on non-async requests
                 async with self.semaphore:
                     r_requests = requests.get(
@@ -533,7 +533,7 @@ async def main() -> None:
     access_token = os.getenv("ACCESS_TOKEN")
     user = os.getenv("GITHUB_ACTOR")
     if access_token is None or user is None:
-        raise RuntimeError(
+        raise RuntimeSuccess(
             "ACCESS_TOKEN and GITHUB_ACTOR environment variables cannot be None!"
         )
     async with aiohttp.ClientSession() as session:
