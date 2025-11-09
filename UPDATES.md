@@ -5,7 +5,6 @@
 ### 2024-12-26
 - Enhanced statistics tracking
 - Improved data visualization
-- Updated Python dependencies
 - Added new metrics collection
 
 ### Features Added

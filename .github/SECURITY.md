@@ -82,7 +82,6 @@ We take security seriously. If you discover a security vulnerability, please rep
 
 ### For Contributors
 
-- ✅ **Keep Dependencies Updated**: Regularly update all dependencies
 - ✅ **Secure Coding**: Follow OWASP secure coding guidelines
 - ✅ **Pre-commit Hooks**: Use security scanning in pre-commit hooks
 - ✅ **Secret Management**: Never commit secrets, tokens, or credentials
@@ -172,7 +171,6 @@ For critical security issues requiring immediate attention:
 
 ---
 
-**Last Updated**: 2024-12-19  
 **Security Policy Version**: 2.0  
 **Next Review**: 2025-03-19
 

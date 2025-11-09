@@ -75,4 +75,3 @@ if __name__ == "__main__":
     stats = get_user_stats("uldyssian-sh")
     print(f"Stats: {stats}")
     generate_overview_svg(stats)
-    print("✅ Overview SVG generated successfully")# Updated 20251109_123805
