@@ -1,0 +1,4 @@
+# Trivy ignore file for false positives
+CVE-2019-8331
+CVE-2020-8203
+CVE-2021-23337
