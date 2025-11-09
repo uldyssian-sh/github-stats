@@ -1,8 +1,0 @@
-name: Failure Reporter
-on:
-  workflow_dispatch:
-jobs:
-  report:
-    runs-on: ubuntu-latest
-    steps:
-    - run: echo "✅ Failure reporter completed"
