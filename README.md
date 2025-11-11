@@ -1,5 +1,10 @@
 # GitHub Stats Generator
 
+[![License](https://img.shields.io/github/license/uldyssian-sh/github-stats?style=flat-square)](LICENSE)
+[![Status](https://img.shields.io/badge/status-active-brightgreen?style=flat-square)](#)
+[![Languages](https://img.shields.io/github/languages/count/uldyssian-sh/github-stats?style=flat-square)](#)
+[![Size](https://img.shields.io/github/repo-size/uldyssian-sh/github-stats?style=flat-square)](#)
+[![Security Scan](https://img.shields.io/badge/security-scanned-green?style=flat-square)](#)
 [![CI](https://github.com/uldyssian-sh/github-stats/actions/workflows/ci.yml/badge.svg)](https://github.com/uldyssian-sh/github-stats/actions/workflows/ci.yml)
 [![Security](https://github.com/uldyssian-sh/github-stats/actions/workflows/security.yml/badge.svg)](https://github.com/uldyssian-sh/github-stats/actions/workflows/security.yml)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
