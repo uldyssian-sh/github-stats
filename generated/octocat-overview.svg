@@ -6,6 +6,7 @@
   </linearGradient>
   <linearGradient id="header" x1="0%" y1="0%" x2="100%" y2="0%">
     <stop offset="0%" style="stop-color:#f78166;stop-opacity:1" />
+    <stop offset="50%" style="stop-color:#fa7970;stop-opacity:1" />
     <stop offset="100%" style="stop-color:#fd7e14;stop-opacity:1" />
   </linearGradient>
 </defs>
@@ -17,7 +18,16 @@
 .subtitle { font: 400 12px 'Segoe UI', Ubuntu, sans-serif; fill: #fff; opacity: 0.9; }
 .label { font: 500 13px 'Segoe UI', Ubuntu, sans-serif; fill: #e6edf3; }
 .value { font: 700 14px 'Segoe UI', Ubuntu, sans-serif; fill: #58a6ff; }
+.icon { fill: #58a6ff; }
 .octocat { fill: #fff; }
+.stat { animation: slideIn 0.6s ease-out forwards; transform: translateX(-100%); }
+.stat:nth-child(1) { animation-delay: 0.1s; }
+.stat:nth-child(2) { animation-delay: 0.2s; }
+.stat:nth-child(3) { animation-delay: 0.3s; }
+.stat:nth-child(4) { animation-delay: 0.4s; }
+.stat:nth-child(5) { animation-delay: 0.5s; }
+.stat:nth-child(6) { animation-delay: 0.6s; }
+@keyframes slideIn { to { transform: translateX(0); } }
 </style>
 
 <rect class="bg" x="5" y="5" width="440" height="190"/>
@@ -30,24 +40,45 @@
   </svg>
 </g>
 
-<text class="title" x="50" y="28">LT's GitHub Statistics</text>
-<text class="subtitle" x="50" y="42">Infrastructure Engineer • VCIX-DCV • vExpert</text>
+<text class="title" x="50" y="28">No Name's GitHub Statistics</text>
+<text class="subtitle" x="50" y="42">Real-time data from GitHub API</text>
 
-<!-- Stats -->
+<!-- Stats Grid -->
 <g transform="translate(20, 65)">
-  <text class="label" x="0" y="15">⭐ Total Stars</text>
-  <text class="value" x="350" y="15">Loading...</text>
+  <g class="stat">
+    <circle class="icon" cx="8" cy="8" r="3"/>
+    <text class="label" x="20" y="12">Total Stars Earned</text>
+    <text class="value" x="350" y="12">0</text>
+  </g>
   
-  <text class="label" x="0" y="40">🍴 Total Forks</text>
-  <text class="value" x="350" y="40">Loading...</text>
+  <g class="stat" transform="translate(0, 22)">
+    <path class="icon" d="M5 3.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm0 2.122a2.25 2.25 0 10-1.5 0v.878A2.25 2.25 0 005.75 8.5h1.5v2.128a2.251 2.251 0 101.5 0V8.5h1.5a2.25 2.25 0 002.25-2.25v-.878a2.25 2.25 0 10-1.5 0v.878a.75.75 0 01-.75.75h-4.5A.75.75 0 015 6.25v-.878z"/>
+    <text class="label" x="20" y="12">Total Forks</text>
+    <text class="value" x="350" y="12">0</text>
+  </g>
   
-  <text class="label" x="0" y="65">📚 Repositories</text>
-  <text class="value" x="350" y="65">25+</text>
+  <g class="stat" transform="translate(0, 44)">
+    <rect class="icon" x="2" y="2" width="12" height="12" rx="2"/>
+    <text class="label" x="20" y="12">Public Repositories</text>
+    <text class="value" x="350" y="12">0</text>
+  </g>
   
-  <text class="label" x="0" y="90">📈 Contributions</text>
-  <text class="value" x="350" y="90">1,500+</text>
+  <g class="stat" transform="translate(0, 66)">
+    <path class="icon" d="M1 2.5A2.5 2.5 0 013.5 0h8.75a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0V1.5h-8a1 1 0 00-1 1v6.708A2.492 2.492 0 013.5 9h3.25a.75.75 0 010 1.5H3.5a1 1 0 100 2h5.75a.75.75 0 010 1.5H3.5A2.5 2.5 0 011 11.5v-9z"/>
+    <text class="label" x="20" y="12">Total Contributions</text>
+    <text class="value" x="350" y="12">0</text>
+  </g>
   
-  <text class="label" x="0" y="115">👀 Profile Views</text>
-  <text class="value" x="350" y="115">Loading...</text>
+  <g class="stat" transform="translate(0, 88)">
+    <circle class="icon" cx="8" cy="8" r="6" fill="none" stroke="#58a6ff" stroke-width="2"/>
+    <text class="label" x="20" y="12">Profile Views (14 days)</text>
+    <text class="value" x="350" y="12">0</text>
+  </g>
+  
+  <g class="stat" transform="translate(0, 110)">
+    <path class="icon" d="M8.75 1.75a.75.75 0 00-1.5 0V5H4a.75.75 0 000 1.5h3.25v3.25a.75.75 0 001.5 0V6.5H12A.75.75 0 0012 5H8.75V1.75z"/>
+    <text class="label" x="20" y="12">Lines of Code Changed</text>
+    <text class="value" x="350" y="12">0</text>
+  </g>
 </g>
 </svg>
