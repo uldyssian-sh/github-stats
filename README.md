@@ -19,16 +19,10 @@ GitHub repository analytics and statistics generator with automated workflows.
 
 ## Generated Statistics
 
-### Modern Overview Statistics (with GitHub Logo)
-![Modern GitHub Stats Overview](./generated/modern-overview.svg)
-
-### Modern Language Distribution (with GitHub Logo)
-![Modern GitHub Languages](./generated/modern-languages.svg)
-
-### Classic Overview Statistics
+### Overview Statistics
 ![GitHub Stats Overview](./generated/overview.svg)
 
-### Classic Language Distribution
+### Language Distribution
 ![GitHub Languages](./generated/languages.svg)
 
 ## Quick Start
@@ -45,14 +39,8 @@ pip install -r requirements.txt
 export ACCESS_TOKEN="your_github_token"
 export GITHUB_ACTOR="your_username"
 
-# Generate modern statistics (with GitHub logo)
-python generate_modern_images.py
-
-# Generate classic statistics
+# Generate statistics
 python generate_images.py
-
-# Test modern generation
-python test_modern_stats.py
 ```
 
 ## Configuration

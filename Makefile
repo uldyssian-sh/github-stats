@@ -8,16 +8,10 @@ help: ## Show this help message
 install: ## Install dependencies
 	pip install -r requirements.txt
 
-octocat: ## Generate Octocat stats with GitHub mascot
-	python generate_octocat_stats.py
-
-modern: ## Generate modern stats with GitHub logo
-	python generate_modern_images.py
-
-classic: ## Generate classic stats
+generate: ## Generate GitHub stats
 	python generate_images.py
 
-all: modern classic ## Generate both modern and classic stats
+classic: generate ## Generate classic stats (alias)
 
 test: ## Test modern stats generation
 	python test_modern_stats.py
