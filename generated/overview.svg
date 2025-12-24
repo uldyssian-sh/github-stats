@@ -70,11 +70,11 @@ th {
 
 
 td {
-  margin-bottom: 8px;
-  margin-top: 4px;
-  padding: 0.15em 0.25em;
+  margin-bottom: 16px;
+  margin-top: 8px;
+  padding: 0.25em;
   font-size: 12px;
-  line-height: 16px;
+  line-height: 18px;
   color: #c9d1d9;
 }
 
