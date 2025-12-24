@@ -9,8 +9,8 @@ svg {
 #background {
   width: calc(100% - 10px);
   height: calc(100% - 10px);
-  fill: white;
-  stroke: rgb(225, 228, 232);
+  fill: #0d1117;
+  stroke: rgb(48, 54, 61);
   stroke-width: 1px;
   rx: 6px;
   ry: 6px;
@@ -32,8 +32,8 @@ h2 {
   line-height: 24px;
   font-size: 16px;
   font-weight: 600;
-  color: rgb(36, 41, 46);
-  fill: rgb(36, 41, 46);
+  color: #c9d1d9;
+  fill: #c9d1d9;
 }
 
 #gh-dark-mode-only:target h2 {
@@ -71,7 +71,7 @@ div.ellipsis {
 }
 
 .octicon {
-  fill: rgb(88, 96, 105);
+  fill: #8b949e;
   margin-right: 0.5ch;
   vertical-align: top;
 }
@@ -85,7 +85,7 @@ div.ellipsis {
   display: flex;
   height: 8px;
   overflow: hidden;
-  background-color: rgb(225, 228, 232);
+  background-color: rgba(110, 118, 129, 0.4);
   border-radius: 6px;
   outline: 1px solid transparent;
   margin-bottom: 1em;
@@ -107,7 +107,7 @@ div.ellipsis {
 .lang {
   font-weight: 600;
   margin-right: 4px;
-  color: rgb(36, 41, 46);
+  color: #c9d1d9;
 }
 
 #gh-dark-mode-only:target .lang {
@@ -115,7 +115,7 @@ div.ellipsis {
 }
 
 .percent {
-  color: rgb(88, 96, 105)
+  color: #8b949e
 }
 
 #gh-dark-mode-only:target .percent {
@@ -139,38 +139,38 @@ div.ellipsis {
 <ul>
 
 <li style="animation-delay: 0ms">
-<svg style="color: #3572A5" aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" class="octicon octicon-dot-fill">
+<svg style="color: #012456" aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" class="octicon octicon-dot-fill">
 <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8z"></path>
 </svg>
-<span class="lang">Python</span>
-<span class="percent">45.2%</span>
+<span class="lang">PowerShell</span>
+<span class="percent">54.1%</span>
 </li>
 <li style="animation-delay: 150ms">
 <svg style="color: #89e051" aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" class="octicon octicon-dot-fill">
 <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8z"></path>
 </svg>
 <span class="lang">Shell</span>
-<span class="percent">28.7%</span>
+<span class="percent">20.1%</span>
 </li>
 <li style="animation-delay: 300ms">
-<svg style="color: #012456" aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" class="octicon octicon-dot-fill">
+<svg style="color: #586069" aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" class="octicon octicon-dot-fill">
 <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8z"></path>
 </svg>
-<span class="lang">PowerShell</span>
-<span class="percent">15.3%</span>
+<span class="lang">HCL</span>
+<span class="percent">10.7%</span>
 </li>
 <li style="animation-delay: 450ms">
-<svg style="color: #384d54" aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" class="octicon octicon-dot-fill">
+<svg style="color: #3572A5" aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" class="octicon octicon-dot-fill">
 <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8z"></path>
 </svg>
-<span class="lang">Dockerfile</span>
-<span class="percent">6.8%</span>
+<span class="lang">Python</span>
+<span class="percent">7.7%</span>
 </li>
 <li style="animation-delay: 600ms">
-<svg style="color: #cb171e" aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" class="octicon octicon-dot-fill">
+<svg style="color: #427819" aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" class="octicon octicon-dot-fill">
 <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8z"></path>
 </svg>
-<span class="lang">YAML</span>
+<span class="lang">Makefile</span>
 <span class="percent">4.0%</span>
 </li>
 
