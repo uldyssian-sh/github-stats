@@ -85,23 +85,17 @@ div.ellipsis {
   display: flex;
   height: 8px;
   overflow: hidden;
-  background-color: rgb(225, 228, 232);
+  background-color: rgba(110, 118, 129, 0.4);
   border-radius: 6px;
   outline: 1px solid transparent;
   margin-bottom: 1em;
 }
 
-#gh-dark-mode-only:target .progress {
-  background-color: rgba(110, 118, 129, 0.4);
-}
-
 .progress-item {
-  outline: 2px solid rgb(225, 228, 232);
-  border-collapse: collapse;
-}
-
-#gh-dark-mode-only:target .progress-item {
-  outline: 2px solid #393f47;
+  border: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
 }
 
 .lang {
