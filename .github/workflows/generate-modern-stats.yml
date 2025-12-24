@@ -1,11 +1,11 @@
 name: Generate Modern GitHub Stats
 
 on:
-  schedule:
-    - cron: '0 */6 * * *'  # Every 6 hours
+  # schedule:
+  #   - cron: '0 */6 * * *'  # Every 6 hours - temporarily disabled
   workflow_dispatch:
-  push:
-    branches: [ main ]
+  # push:
+  #   branches: [ main ]  # temporarily disabled
 
 jobs:
   generate-stats:
