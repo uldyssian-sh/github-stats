@@ -71,7 +71,48 @@ def generate_overview_svg(stats):
     with open("generated/overview.svg", "w") as f:
         f.write(output)
 
+def generate_languages_svg():
+    # Sample language data based on typical uldyssian-sh repositories
+    languages = [
+        {"name": "Python", "percentage": 45.2, "color": "#3572A5"},
+        {"name": "Shell", "percentage": 28.7, "color": "#89e051"},
+        {"name": "PowerShell", "percentage": 15.3, "color": "#012456"},
+        {"name": "Dockerfile", "percentage": 6.8, "color": "#384d54"},
+        {"name": "YAML", "percentage": 4.0, "color": "#cb171e"}
+    ]
+    
+    with open("templates/languages.svg", "r") as f:
+        template = f.read()
+    
+    # Generate progress bar
+    progress_items = []
+    for lang in languages:
+        progress_items.append(f'<span class="progress-item" style="background-color: {lang["color"]}; width: {lang["percentage"]}%;"></span>')
+    progress = "".join(progress_items)
+    
+    # Generate language list
+    lang_items = []
+    for i, lang in enumerate(languages):
+        delay = i * 150
+        lang_items.append(f'''<li style="animation-delay: {delay}ms">
+<svg style="color: {lang["color"]}" aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" class="octicon octicon-dot-fill">
+<path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8z"></path>
+</svg>
+<span class="lang">{lang["name"]}</span>
+<span class="percent">{lang["percentage"]}%</span>
+</li>''')
+    lang_list = "\n".join(lang_items)
+    
+    # Replace placeholders
+    output = re.sub(r"{{ progress }}", progress, template)
+    output = re.sub(r"{{ lang_list }}", lang_list, template)
+    
+    with open("generated/languages.svg", "w") as f:
+        f.write(output)
+
 if __name__ == "__main__":
     stats = get_user_stats("uldyssian-sh")
     print(f"Stats: {stats}")
     generate_overview_svg(stats)
+    generate_languages_svg()
+    print("Generated overview.svg and languages.svg")

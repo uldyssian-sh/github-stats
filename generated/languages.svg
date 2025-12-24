@@ -132,13 +132,47 @@ div.ellipsis {
 
 <div>
 <span class="progress">
-
+{{ progress }}
 </span>
 </div>
 
 <ul>
 
-
+<li style="animation-delay: 0ms">
+<svg style="color: #3572A5" aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" class="octicon octicon-dot-fill">
+<path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8z"></path>
+</svg>
+<span class="lang">Python</span>
+<span class="percent">45.2%</span>
+</li>
+<li style="animation-delay: 150ms">
+<svg style="color: #89e051" aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" class="octicon octicon-dot-fill">
+<path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8z"></path>
+</svg>
+<span class="lang">Shell</span>
+<span class="percent">28.7%</span>
+</li>
+<li style="animation-delay: 300ms">
+<svg style="color: #012456" aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" class="octicon octicon-dot-fill">
+<path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8z"></path>
+</svg>
+<span class="lang">PowerShell</span>
+<span class="percent">15.3%</span>
+</li>
+<li style="animation-delay: 450ms">
+<svg style="color: #384d54" aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" class="octicon octicon-dot-fill">
+<path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8z"></path>
+</svg>
+<span class="lang">Dockerfile</span>
+<span class="percent">6.8%</span>
+</li>
+<li style="animation-delay: 600ms">
+<svg style="color: #cb171e" aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" class="octicon octicon-dot-fill">
+<path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8z"></path>
+</svg>
+<span class="lang">YAML</span>
+<span class="percent">4.0%</span>
+</li>
 
 </ul>
 
