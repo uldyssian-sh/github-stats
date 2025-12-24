@@ -73,7 +73,6 @@ def generate_overview_svg(stats):
     output = re.sub(r"{{ issues_closed }}", "140+", output)
     output = re.sub(r"{{ pull_requests }}", "200+", output)
     output = re.sub(r"{{ account_age }}", "8+ years", output)
-    output = re.sub(r"{{ most_active_day }}", "Wednesday", output)
     
     with open("generated/overview.svg", "w") as f:
         f.write(output)
