@@ -8,21 +8,6 @@ svg {
   height: auto;
 }
 
-@media (max-width: 480px) {
-  svg {
-    font-size: 12px;
-    line-height: 18px;
-  }
-  
-  h2 {
-    font-size: 14px !important;
-  }
-  
-  li {
-    font-size: 10px !important;
-  }
-}
-
 #background {
   width: calc(100% - 10px);
   height: calc(100% - 10px);
