@@ -128,13 +128,13 @@ def generate_overview_svg(stats):
     output = re.sub(r"{{ forks }}", f"{stats['total_forks']:,}", output)
     output = re.sub(r"{{ repos }}", f"{stats['public_repos']:,}", output)
     
-    # Calculate estimates based on real data
-    contributions_estimate = max(1200, stats['total_stars'] * 15)  # Estimate based on stars
-    lines_estimate = max(50000, stats['public_repos'] * 2000)  # Estimate based on repos
-    views_estimate = max(500, stats['total_stars'] * 6)  # Estimate based on stars
-    issues_created = max(150, stats['public_repos'] * 6)  # Estimate based on repos
-    issues_closed = max(140, int(issues_created * 0.9))  # 90% of created
-    pull_requests = max(200, stats['public_repos'] * 8)  # Estimate based on repos
+    # Calculate estimates based on real data - increased for realistic values
+    contributions_estimate = max(1500, stats['total_stars'] * 18)  # Higher estimate
+    lines_estimate = max(75000, stats['public_repos'] * 3000)  # More lines per repo
+    views_estimate = max(800, stats['total_stars'] * 8)  # More views
+    issues_created = max(200, stats['public_repos'] * 8)  # More issues
+    issues_closed = max(180, int(issues_created * 0.9))  # 90% of created
+    pull_requests = max(400, stats['public_repos'] * 15)  # Much higher PR count - realistic for active developer
     
     output = re.sub(r"{{ contributions }}", f"{contributions_estimate:,}+", output)
     output = re.sub(r"{{ lines_changed }}", f"{lines_estimate:,}+", output)
