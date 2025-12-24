@@ -153,10 +153,10 @@ def generate_languages_svg(stats):
     with open("templates/languages.svg", "r") as f:
         template = f.read()
     
-    # Generate progress bar with proper flex structure
+    # Generate simple progress bar with inline-block
     progress_items = []
     for lang in languages:
-        progress_items.append(f'<span class="progress-item" style="background-color: {lang["color"]}; flex: 0 0 {lang["percentage"]:.1f}%;"></span>')
+        progress_items.append(f'<span style="background-color: {lang["color"]}; width: {lang["percentage"]:.1f}%; height: 100%; display: inline-block;"></span>')
     progress = "".join(progress_items)
     
     # Generate language list
