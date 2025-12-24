@@ -1,9 +1,26 @@
-<svg width="360" height="210" xmlns="http://www.w3.org/2000/svg">
+<svg width="100%" height="210" viewBox="0 0 360 210" xmlns="http://www.w3.org/2000/svg">
 <style>
 svg {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
   font-size: 14px;
   line-height: 21px;
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 480px) {
+  svg {
+    font-size: 12px;
+    line-height: 18px;
+  }
+  
+  h2 {
+    font-size: 14px !important;
+  }
+  
+  li {
+    font-size: 10px !important;
+  }
 }
 
 #background {
@@ -121,41 +138,7 @@ div.ellipsis {
 
 <ul>
 
-<li style="animation-delay: 0ms">
-<svg style="color: #012456" aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" class="octicon octicon-dot-fill">
-<path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8z"></path>
-</svg>
-<span class="lang">PowerShell</span>
-<span class="percent">54.1%</span>
-</li>
-<li style="animation-delay: 150ms">
-<svg style="color: #89e051" aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" class="octicon octicon-dot-fill">
-<path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8z"></path>
-</svg>
-<span class="lang">Shell</span>
-<span class="percent">20.1%</span>
-</li>
-<li style="animation-delay: 300ms">
-<svg style="color: #586069" aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" class="octicon octicon-dot-fill">
-<path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8z"></path>
-</svg>
-<span class="lang">HCL</span>
-<span class="percent">10.7%</span>
-</li>
-<li style="animation-delay: 450ms">
-<svg style="color: #3572A5" aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" class="octicon octicon-dot-fill">
-<path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8z"></path>
-</svg>
-<span class="lang">Python</span>
-<span class="percent">7.7%</span>
-</li>
-<li style="animation-delay: 600ms">
-<svg style="color: #427819" aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" class="octicon octicon-dot-fill">
-<path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8z"></path>
-</svg>
-<span class="lang">Makefile</span>
-<span class="percent">4.0%</span>
-</li>
+
 
 </ul>
 

@@ -1,9 +1,27 @@
-<svg width="360" height="300" xmlns="http://www.w3.org/2000/svg">
+<svg width="100%" height="300" viewBox="0 0 360 300" xmlns="http://www.w3.org/2000/svg">
 <style>
 svg {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
   font-size: 14px;
   line-height: 21px;
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 480px) {
+  svg {
+    font-size: 12px;
+    line-height: 18px;
+  }
+  
+  th {
+    font-size: 12px !important;
+  }
+  
+  td {
+    font-size: 10px !important;
+    line-height: 16px !important;
+  }
 }
 
 #background {
