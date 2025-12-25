@@ -4,6 +4,8 @@ on:
   schedule:
     - cron: '0 8,14,20 * * *'  # 3 times daily: 8 AM, 2 PM, 8 PM UTC
   workflow_dispatch:
+  push:
+    branches: [ main ]
 
 jobs:
   boost-activity:
