@@ -9,7 +9,7 @@ svg {
 #background {
   width: calc(100% - 10px);
   height: calc(100% - 10px);
-  fill: white;
+  fill: #0d1117;
   stroke: rgb(225, 228, 232);
   stroke-width: 1px;
   rx: 6px;
@@ -38,7 +38,7 @@ th {
   text-align: left;
   font-size: 14px;
   font-weight: 600;
-  color: rgb(3, 102, 214);
+  color: #58a6ff;
 }
 
 #gh-dark-mode-only:target th {
@@ -51,7 +51,7 @@ td {
   padding: 0.25em;
   font-size: 12px;
   line-height: 18px;
-  color: rgb(88, 96, 105);
+  color: #c9d1d9;
 }
 
 #gh-dark-mode-only:target td {
@@ -64,7 +64,7 @@ tr {
 }
 
 .octicon {
-  fill: rgb(88, 96, 105);
+  fill: #8b949e;
   margin-right: 1ch;
   vertical-align: top;
 }
