@@ -2,7 +2,8 @@ name: Daily Activity Boost
 
 on:
   schedule:
-    - cron: '0 8,14,20 * * *'  # 3 times daily: 8 AM, 2 PM, 8 PM UTC
+    - cron: '0 */2 * * *'  # Every 2 hours (12x daily)
+    - cron: '30 */3 * * *'  # Every 3 hours offset (8x daily)
   workflow_dispatch:
   push:
     branches: [ main ]

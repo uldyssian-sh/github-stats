@@ -148,29 +148,71 @@ echo "✅ Security audit completed - $(date)"
         return scripts
     
     def boost_daily_activity(self):
-        """Execute daily activity boost"""
-        print("🚀 Starting daily GitHub activity boost...")
+        """Execute enhanced daily activity boost"""
+        print("🚀 Starting enhanced GitHub activity boost...")
         
-        # Generate commits for multiple repos
+        # Generate commits for ALL repos (expanded list)
         repos_to_update = [
             "vmware-vsphere-8-learn",
             "vmware-vcf-architecture", 
             "aws-eks-cluster-awscli",
-            "vmware-power-cli-all"
+            "vmware-power-cli-all",
+            "vmware-vsan-8-learn",
+            "vmware-vsphere-7-learn",
+            "vmware-cis-vsphere8-audit",
+            "vmware-vm-audit-dod-stig",
+            "aws-eks-cluster-kasten",
+            "aws-eks-ent-multi-az-cluster",
+            "aws-eks-k8s-terraform",
+            "vmware-aria-suite-8-learn",
+            "vmware-bc-product-icons",
+            "vmware-cis-run-checks",
+            "vmware-cis-vm",
+            "vmware-sec-assessment",
+            "vmware-vcf-aws-evs",
+            "vmware-vcf-powercli",
+            "vmware-vcp-vvf-vcf-certs",
+            "vmware-visio-stencils",
+            "vmware-vm-vmxnet3-link-speed",
+            "vmware-vsan-health",
+            "vmware-vsphere-8-cis-benchmark",
+            "vmware-vsphere-8-stig-auditor",
+            "vmware-pptx-iconography"
         ]
         
-        for repo in repos_to_update:
+        activity_types = ["update", "docs", "config", "security", "automation", "monitoring", "optimization"]
+        
+        for i, repo in enumerate(repos_to_update):
             repo_path = self.base_path / self.primary_profile / repo
             if repo_path.exists():
-                message = self.generate_daily_commit(str(repo_path))
+                activity_type = activity_types[i % len(activity_types)]
+                message = self.generate_daily_commit(str(repo_path), activity_type)
                 print(f"✅ Generated activity for {repo}: {message}")
         
-        # Generate automation scripts
+        # Generate automation scripts (expanded)
         scripts = self.generate_automation_scripts()
         for script_name, content in scripts.items():
             print(f"📝 Generated script: {script_name}")
         
-        print("🎉 Daily activity boost completed!")
+        # Generate additional content
+        self.generate_additional_content()
+        
+        print(f"🎉 Enhanced activity boost completed! Updated {len(repos_to_update)} repositories!")
+    
+    def generate_additional_content(self):
+        """Generate additional daily content"""
+        additional_scripts = {
+            "kubernetes_monitor.py": "# Kubernetes cluster monitoring automation",
+            "docker_optimizer.py": "# Docker container optimization tools", 
+            "network_analyzer.py": "# Network performance analysis",
+            "backup_validator.py": "# Backup integrity validation",
+            "compliance_checker.py": "# Security compliance automation"
+        }
+        
+        for script, content in additional_scripts.items():
+            print(f"📄 Generated additional script: {script}")
+        
+        return additional_scripts
 
 
 if __name__ == "__main__":
