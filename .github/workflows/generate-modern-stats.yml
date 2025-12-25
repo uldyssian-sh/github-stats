@@ -46,12 +46,12 @@ jobs:
       run: |
         git config --local user.email "25517637+uldyssian-sh@users.noreply.github.com"
         git config --local user.name "uldyssian-sh"
-        git pull --rebase origin main
         git add generated/ || true
         if git diff --staged --quiet; then
           echo "📊 No changes to commit"
         else
           git commit -m "🔄 Update GitHub Stats [$(date +'%Y-%m-%d %H:%M:%S UTC')]"
+          git pull --rebase origin main || true
           git push origin main
           echo "✅ Stats updated successfully"
         fi

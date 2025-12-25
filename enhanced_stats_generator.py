@@ -164,7 +164,7 @@ class GitHubStatsCollector:
         print(f"🔍 Collecting comprehensive stats for {self.username}...")
         
         # Try GraphQL first for more accurate data
-        graphql_data = await self.get_comprehensive_stats()
+        graphql_data = await self.get_user_graphql_data()
         
         if graphql_data:
             print("✅ Using GraphQL API for accurate statistics")
@@ -172,6 +172,91 @@ class GitHubStatsCollector:
         else:
             print("⚠️  GraphQL failed, falling back to REST API estimates")
             return await self.collect_rest_stats()
+    
+    async def get_user_graphql_data(self) -> Dict[str, Any]:
+        """Get comprehensive GitHub statistics using GraphQL"""
+        query = """
+        query($username: String!) {
+          user(login: $username) {
+            name
+            login
+            createdAt
+            followers {
+              totalCount
+            }
+            following {
+              totalCount
+            }
+            repositories(first: 100, orderBy: {field: UPDATED_AT, direction: DESC}) {
+              totalCount
+              nodes {
+                name
+                nameWithOwner
+                stargazerCount
+                forkCount
+                watchers {
+                  totalCount
+                }
+                diskUsage
+                primaryLanguage {
+                  name
+                  color
+                }
+                languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
+                  edges {
+                    size
+                    node {
+                      name
+                      color
+                    }
+                  }
+                }
+                isFork
+                isPrivate
+              }
+            }
+            contributionsCollection {
+              totalCommitContributions
+              totalIssueContributions
+              totalPullRequestContributions
+              totalPullRequestReviewContributions
+              totalRepositoryContributions
+              contributionCalendar {
+                totalContributions
+              }
+            }
+            repositoriesContributedTo(first: 100, includeUserRepositories: false) {
+              totalCount
+              nodes {
+                nameWithOwner
+                stargazerCount
+                forkCount
+              }
+            }
+            pullRequests(first: 100) {
+              totalCount
+            }
+            issues(first: 100) {
+              totalCount
+            }
+          }
+        }
+        """
+        
+        variables = {"username": self.username}
+        
+        try:
+            async with self.session.post(
+                self.graphql_url,
+                json={"query": query, "variables": variables}
+            ) as response:
+                if response.status == 200:
+                    result = await response.json()
+                    return result.get("data", {}).get("user", {})
+        except Exception as e:
+            print(f"Error fetching comprehensive stats: {e}")
+        
+        return {}
     
     async def process_graphql_data(self, data: Dict[str, Any]) -> Dict[str, Any]:
         """Process GraphQL response into stats format"""
