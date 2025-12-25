@@ -32,6 +32,8 @@ jobs:
     - name: Generate statistics
       env:
         GITHUB_ACTOR: ${{ github.actor }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         python enhanced_stats_generator.py
     

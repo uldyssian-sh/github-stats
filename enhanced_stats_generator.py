@@ -160,9 +160,135 @@ class GitHubStatsCollector:
         
         return language_stats
     async def collect_all_stats(self) -> Dict[str, Any]:
-        """Collect comprehensive GitHub statistics"""
+        """Collect comprehensive GitHub statistics using GraphQL API"""
         print(f"🔍 Collecting comprehensive stats for {self.username}...")
         
+        # Try GraphQL first for more accurate data
+        graphql_data = await self.get_comprehensive_stats()
+        
+        if graphql_data:
+            print("✅ Using GraphQL API for accurate statistics")
+            return await self.process_graphql_data(graphql_data)
+        else:
+            print("⚠️  GraphQL failed, falling back to REST API estimates")
+            return await self.collect_rest_stats()
+    
+    async def process_graphql_data(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """Process GraphQL response into stats format"""
+        name = data.get('name') or data.get('login', 'GitHub User')
+        
+        # Repository statistics
+        repos_data = data.get('repositories', {})
+        repos = repos_data.get('nodes', [])
+        owned_repos = [repo for repo in repos if not repo.get('isFork', False)]
+        
+        # Calculate totals
+        total_stars = sum(repo.get('stargazerCount', 0) for repo in repos)
+        total_forks = sum(repo.get('forkCount', 0) for repo in repos)
+        total_watchers = sum(repo.get('watchers', {}).get('totalCount', 0) for repo in repos)
+        
+        # Contribution statistics
+        contrib_data = data.get('contributionsCollection', {})
+        total_contributions = contrib_data.get('contributionCalendar', {}).get('totalContributions', 0)
+        commit_contributions = contrib_data.get('totalCommitContributions', 0)
+        issue_contributions = contrib_data.get('totalIssueContributions', 0)
+        pr_contributions = contrib_data.get('totalPullRequestContributions', 0)
+        
+        # Language statistics from GraphQL
+        language_stats = {}
+        total_lang_size = 0
+        
+        for repo in owned_repos:
+            if repo.get('isFork', False):
+                continue
+            for lang_edge in repo.get('languages', {}).get('edges', []):
+                lang_name = lang_edge.get('node', {}).get('name', 'Unknown')
+                lang_size = lang_edge.get('size', 0)
+                lang_color = lang_edge.get('node', {}).get('color', '#586069')
+                
+                if lang_name in language_stats:
+                    language_stats[lang_name]['size'] += lang_size
+                else:
+                    language_stats[lang_name] = {
+                        'size': lang_size,
+                        'color': lang_color
+                    }
+                total_lang_size += lang_size
+        
+        # Calculate language proportions
+        for lang_name, lang_data in language_stats.items():
+            if total_lang_size > 0:
+                lang_data['prop'] = (lang_data['size'] / total_lang_size) * 100
+            else:
+                lang_data['prop'] = 0
+        
+        # Account age
+        created_at = data.get('createdAt', '')
+        account_age = "Unknown"
+        if created_at:
+            try:
+                created = datetime.fromisoformat(created_at.replace('Z', '+00:00'))
+                now = datetime.now(timezone.utc)
+                years = (now - created).days // 365
+                account_age = f"{years} years"
+            except:
+                pass
+        
+        # Get additional stats
+        followers = data.get('followers', {}).get('totalCount', 0)
+        following = data.get('following', {}).get('totalCount', 0)
+        contributed_repos = data.get('repositoriesContributedTo', {}).get('totalCount', 0)
+        
+        # Pull requests and issues
+        total_prs = data.get('pullRequests', {}).get('totalCount', pr_contributions)
+        total_issues = data.get('issues', {}).get('totalCount', issue_contributions)
+        
+        # Calculate lines changed estimate (more conservative with real data)
+        lines_changed = max(
+            commit_contributions * 25,  # 25 lines per commit on average
+            total_stars * 30,  # Popular repos have more code
+            len(owned_repos) * 100  # Base estimate per repo
+        )
+        
+        # Repository views estimate
+        views_estimate = max(
+            total_stars * 15,  # Popular repos get more views
+            total_watchers * 10,
+            len(owned_repos) * 50
+        )
+        
+        stats = {
+            'name': name,
+            'stars': total_stars,
+            'forks': total_forks,
+            'repos': len(owned_repos),
+            'total_repos': len(repos),
+            'contributions': total_contributions,
+            'lines_changed': lines_changed,
+            'views': views_estimate,
+            'issues_created': total_issues,
+            'issues_closed': total_issues // 2,  # Estimate 50% closure rate
+            'pull_requests': total_prs,
+            'account_age': account_age,
+            'most_active_day': 'Wednesday',
+            'languages': language_stats,
+            'followers': followers,
+            'following': following,
+            'contributed_repos': contributed_repos
+        }
+        
+        print(f"✅ GraphQL stats collected:")
+        print(f"   📁 {len(repos)} total repos ({len(owned_repos)} owned)")
+        print(f"   ⭐ {total_stars} stars across all repositories")
+        print(f"   🍴 {total_forks} forks")
+        print(f"   💻 {len(language_stats)} programming languages")
+        print(f"   📊 {total_contributions} total contributions")
+        print(f"   👥 {followers} followers, {following} following")
+        
+        return stats
+    
+    async def collect_rest_stats(self) -> Dict[str, Any]:
+        """Fallback method using REST API with estimates"""
         # Get user info
         user_info = await self.get_user_info()
         name = user_info.get('name') or user_info.get('login', 'GitHub User')
@@ -264,7 +390,7 @@ class GitHubStatsCollector:
             'total_size_kb': total_size
         }
         
-        print(f"✅ Comprehensive stats collected:")
+        print(f"✅ REST API stats collected:")
         print(f"   📁 {len(repos)} total repos ({len(owned_repos)} owned)")
         print(f"   ⭐ {total_stars} stars across all repositories")
         print(f"   🍴 {total_forks} forks")
@@ -387,8 +513,17 @@ async def main() -> None:
     Generate all badges using enhanced stats collector
     """
     username = os.getenv("GITHUB_ACTOR", "uldyssian-sh")
+    access_token = os.getenv("GITHUB_TOKEN") or os.getenv("ACCESS_TOKEN")
     
-    async with aiohttp.ClientSession() as session:
+    if not access_token:
+        print("⚠️  No access token found. Using public API with rate limits.")
+        print("   Set GITHUB_TOKEN or ACCESS_TOKEN environment variable for better results.")
+    
+    headers = {}
+    if access_token:
+        headers["Authorization"] = f"token {access_token}"
+    
+    async with aiohttp.ClientSession(headers=headers) as session:
         collector = GitHubStatsCollector(username, session)
         stats = await collector.collect_all_stats()
         
