@@ -513,26 +513,67 @@ async def main() -> None:
     Generate all badges using enhanced stats collector
     """
     username = os.getenv("GITHUB_ACTOR", "uldyssian-sh")
-    access_token = os.getenv("GITHUB_TOKEN") or os.getenv("ACCESS_TOKEN")
+    access_token = os.getenv("ACCESS_TOKEN") or os.getenv("GITHUB_TOKEN")
+    
+    print(f"🚀 Starting GitHub Stats Generator for {username}")
     
     if not access_token:
-        print("⚠️  No access token found. Using public API with rate limits.")
+        print("⚠️  No access token found. Using public API with severe rate limits.")
         print("   Set GITHUB_TOKEN or ACCESS_TOKEN environment variable for better results.")
+        print("   Some statistics may be incomplete or estimated.")
+    else:
+        print("✅ Access token found - using authenticated API requests")
     
-    headers = {}
+    headers = {
+        "User-Agent": f"github-stats-generator/{username}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+    
     if access_token:
         headers["Authorization"] = f"token {access_token}"
     
-    async with aiohttp.ClientSession(headers=headers) as session:
+    timeout = aiohttp.ClientTimeout(total=30)
+    
+    async with aiohttp.ClientSession(headers=headers, timeout=timeout) as session:
         collector = GitHubStatsCollector(username, session)
-        stats = await collector.collect_all_stats()
         
-        await asyncio.gather(
-            generate_overview(stats),
-            generate_languages(stats)
-        )
-        
-        print("🎉 GitHub stats generated successfully!")
+        try:
+            stats = await collector.collect_all_stats()
+            
+            await asyncio.gather(
+                generate_overview(stats),
+                generate_languages(stats)
+            )
+            
+            print("🎉 GitHub stats generated successfully!")
+            print(f"   📊 Overview: generated/overview.svg")
+            print(f"   💻 Languages: generated/languages.svg")
+            
+        except Exception as e:
+            print(f"❌ Error generating stats: {e}")
+            # Create fallback stats with basic info
+            fallback_stats = {
+                'name': username,
+                'stars': 0,
+                'forks': 0,
+                'repos': 0,
+                'contributions': 0,
+                'lines_changed': 0,
+                'views': 0,
+                'issues_created': 0,
+                'issues_closed': 0,
+                'pull_requests': 0,
+                'account_age': 'Unknown',
+                'most_active_day': 'Wednesday',
+                'languages': {}
+            }
+            
+            await asyncio.gather(
+                generate_overview(fallback_stats),
+                generate_languages(fallback_stats)
+            )
+            
+            print("⚠️  Generated fallback stats due to API errors")
 
 
 if __name__ == "__main__":
