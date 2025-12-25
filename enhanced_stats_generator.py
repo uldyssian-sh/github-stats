@@ -80,42 +80,71 @@ class GitHubStatsCollector:
             print(f"Error fetching languages for {repo_name}: {e}")
         return {}
     
-    async def collect_all_stats(self) -> Dict[str, Any]:
-        """Collect comprehensive GitHub statistics"""
-        print(f"🔍 Collecting stats for {self.username}...")
+    async def get_user_events(self) -> List[Dict[str, Any]]:
+        """Get user's recent events for contribution analysis"""
+        events = []
+        page = 1
         
-        # Get user info
-        user_info = await self.get_user_info()
-        name = user_info.get('name') or user_info.get('login', 'GitHub User')
-        
-        # Get repositories
-        repos = await self.get_repositories()
-        
-        # Calculate statistics
-        total_stars = sum(repo.get('stargazers_count', 0) for repo in repos)
-        total_forks = sum(repo.get('forks_count', 0) for repo in repos)
-        total_repos = len([repo for repo in repos if not repo.get('fork', False)])
-        
-        # Get account age
-        created_at = user_info.get('created_at', '')
-        account_age = "Unknown"
-        if created_at:
+        while page <= 10:  # Limit to avoid rate limiting
             try:
-                created = datetime.fromisoformat(created_at.replace('Z', '+00:00'))
-                now = datetime.now(timezone.utc)
-                years = (now - created).days // 365
-                account_age = f"{years} years"
-            except:
-                pass
-        
-        # Collect language statistics
+                url = f"{self.base_url}/users/{self.username}/events"
+                params = {"page": page, "per_page": 100}
+                
+                async with self.session.get(url, params=params) as response:
+                    if response.status == 200:
+                        page_events = await response.json()
+                        if not page_events:
+                            break
+                        events.extend(page_events)
+                        page += 1
+                    else:
+                        break
+            except Exception as e:
+                print(f"Error fetching events: {e}")
+                break
+                
+        return events
+    
+    async def get_user_starred_repos(self) -> int:
+        """Get count of repositories user has starred"""
+        try:
+            url = f"{self.base_url}/users/{self.username}/starred"
+            params = {"per_page": 1}
+            
+            async with self.session.get(url, params=params) as response:
+                if response.status == 200:
+                    # Get total count from Link header
+                    link_header = response.headers.get('Link', '')
+                    if 'rel="last"' in link_header:
+                        import re
+                        match = re.search(r'page=(\d+)>; rel="last"', link_header)
+                        if match:
+                            return int(match.group(1)) * 100  # Approximate
+                    else:
+                        starred = await response.json()
+                        return len(starred)
+        except Exception as e:
+            print(f"Error fetching starred repos: {e}")
+        return 0
+    
+    async def get_comprehensive_language_stats(self, repos: List[Dict[str, Any]]) -> Dict[str, Dict[str, Any]]:
+        """Get comprehensive language statistics from ALL repositories"""
         all_languages = {}
-        for repo in repos[:20]:  # Limit to avoid rate limiting
-            if not repo.get('fork', False):  # Skip forks
-                repo_name = repo['name']
-                languages = await self.get_repository_languages(repo_name)
-                for lang, bytes_count in languages.items():
-                    all_languages[lang] = all_languages.get(lang, 0) + bytes_count
+        
+        # Process ALL repositories, not just first 20
+        for i, repo in enumerate(repos):
+            if repo.get('fork', False):  # Skip forks for language stats
+                continue
+                
+            repo_name = repo['name']
+            languages = await self.get_repository_languages(repo_name)
+            
+            for lang, bytes_count in languages.items():
+                all_languages[lang] = all_languages.get(lang, 0) + bytes_count
+            
+            # Add small delay every 10 repos to avoid rate limiting
+            if (i + 1) % 10 == 0:
+                await asyncio.sleep(0.5)
         
         # Calculate language percentages
         total_bytes = sum(all_languages.values())
@@ -129,23 +158,120 @@ class GitHubStatsCollector:
                     'color': get_language_color(lang)
                 }
         
+        return language_stats
+    async def collect_all_stats(self) -> Dict[str, Any]:
+        """Collect comprehensive GitHub statistics"""
+        print(f"🔍 Collecting comprehensive stats for {self.username}...")
+        
+        # Get user info
+        user_info = await self.get_user_info()
+        name = user_info.get('name') or user_info.get('login', 'GitHub User')
+        
+        # Get ALL repositories
+        repos = await self.get_repositories()
+        print(f"📊 Found {len(repos)} total repositories")
+        
+        # Separate owned vs forked repositories
+        owned_repos = [repo for repo in repos if not repo.get('fork', False)]
+        forked_repos = [repo for repo in repos if repo.get('fork', False)]
+        
+        print(f"📈 Owned: {len(owned_repos)}, Forked: {len(forked_repos)}")
+        
+        # Calculate comprehensive statistics
+        total_stars = sum(repo.get('stargazers_count', 0) for repo in repos)
+        total_forks = sum(repo.get('forks_count', 0) for repo in repos)
+        total_watchers = sum(repo.get('watchers_count', 0) for repo in repos)
+        total_size = sum(repo.get('size', 0) for repo in repos)  # in KB
+        
+        # Get user's public stats
+        public_repos = user_info.get('public_repos', 0)
+        public_gists = user_info.get('public_gists', 0)
+        followers = user_info.get('followers', 0)
+        following = user_info.get('following', 0)
+        
+        # Get events for contribution analysis
+        events = await self.get_user_events()
+        
+        # Analyze events for better contribution estimates
+        push_events = len([e for e in events if e.get('type') == 'PushEvent'])
+        pr_events = len([e for e in events if e.get('type') == 'PullRequestEvent'])
+        issue_events = len([e for e in events if e.get('type') == 'IssuesEvent'])
+        
+        # Get account age
+        created_at = user_info.get('created_at', '')
+        account_age = "Unknown"
+        account_days = 0
+        if created_at:
+            try:
+                created = datetime.fromisoformat(created_at.replace('Z', '+00:00'))
+                now = datetime.now(timezone.utc)
+                account_days = (now - created).days
+                years = account_days // 365
+                account_age = f"{years} years"
+            except:
+                pass
+        
+        # Get comprehensive language statistics from ALL repositories
+        language_stats = await self.get_comprehensive_language_stats(repos)
+        
+        # Calculate more accurate estimates based on actual data
+        estimated_contributions = max(
+            push_events * 5,  # Estimate 5 commits per push event
+            len(owned_repos) * 15,  # Estimate 15 commits per owned repo
+            account_days // 7  # At least one contribution per week
+        )
+        
+        estimated_lines_changed = max(
+            total_stars * 50,  # Popular repos likely have more code
+            total_size * 10,  # Based on repository sizes
+            estimated_contributions * 20  # Estimate lines per contribution
+        )
+        
+        estimated_issues = max(
+            issue_events,
+            len(owned_repos) * 3,  # Estimate 3 issues per owned repo
+            total_stars // 10  # Popular repos generate issues
+        )
+        
+        estimated_prs = max(
+            pr_events,
+            len(owned_repos) * 2,  # Estimate 2 PRs per owned repo
+            forked_repos.__len__()  # At least one PR per fork
+        )
+        
+        # Get starred repositories count
+        starred_count = await self.get_user_starred_repos()
+        
         stats = {
             'name': name,
             'stars': total_stars,
             'forks': total_forks,
-            'repos': total_repos,
-            'contributions': user_info.get('public_repos', 0) * 10,  # Estimate
-            'lines_changed': total_stars * 100,  # Estimate based on activity
-            'views': total_stars * 5,  # Estimate
-            'issues_created': total_repos * 2,  # Estimate
-            'issues_closed': total_repos * 1,  # Estimate
-            'pull_requests': total_repos * 3,  # Estimate
+            'repos': len(owned_repos),
+            'total_repos': len(repos),
+            'contributions': estimated_contributions,
+            'lines_changed': estimated_lines_changed,
+            'views': max(total_stars * 10, total_watchers * 5),  # Estimate based on popularity
+            'issues_created': estimated_issues,
+            'issues_closed': estimated_issues // 2,  # Assume 50% closure rate
+            'pull_requests': estimated_prs,
             'account_age': account_age,
-            'most_active_day': 'Wednesday',
-            'languages': language_stats
+            'most_active_day': 'Wednesday',  # Could be enhanced with event analysis
+            'languages': language_stats,
+            'followers': followers,
+            'following': following,
+            'public_gists': public_gists,
+            'starred_repos': starred_count,
+            'total_size_kb': total_size
         }
         
-        print(f"✅ Stats collected: {total_repos} repos, {total_stars} stars, {len(language_stats)} languages")
+        print(f"✅ Comprehensive stats collected:")
+        print(f"   📁 {len(repos)} total repos ({len(owned_repos)} owned)")
+        print(f"   ⭐ {total_stars} stars across all repositories")
+        print(f"   🍴 {total_forks} forks")
+        print(f"   💻 {len(language_stats)} programming languages")
+        print(f"   📊 {estimated_contributions} estimated contributions")
+        print(f"   👥 {followers} followers, {following} following")
+        
         return stats
 
 
