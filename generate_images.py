@@ -54,9 +54,6 @@ async def generate_overview(s: Stats) -> None:
     
     account_age = await get_account_age(s)
     output = re.sub("{{ account_age }}", account_age, output)
-    
-    most_active = await get_most_active_day(s)
-    output = re.sub("{{ most_active_day }}", most_active, output)
 
     generate_output_folder()
     with open("generated/overview.svg", "w") as f:
