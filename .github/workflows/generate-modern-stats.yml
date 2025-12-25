@@ -31,13 +31,9 @@ jobs:
     
     - name: Generate statistics
       env:
-        ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_ACTOR: ${{ github.actor }}
-        EXCLUDED: ""
-        EXCLUDED_LANGS: ""
-        EXCLUDE_FORKED_REPOS: "false"
       run: |
-        python generate_images.py
+        python enhanced_stats_generator.py
     
     - name: Commit and push changes
       run: |
